@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">EzVideoChat_Wechat</string>
+    <string name="accessibility_service_description">我的service</string>
+</resources>
