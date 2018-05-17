@@ -25,17 +25,12 @@ public class initWechat implements State {
     public void doAction(WechatAutoService context, AccessibilityEvent event) {
         if(event.getPackageName().toString().equals("com.tencent.mm")){
             Log.e("myservice", this.getClass().getName());
-            if(context.getServiceInfo().packageNames != null)
-                Log.e("myservice", context.getServiceInfo().packageNames[0]);
-            else
-                Log.e("myservice", "null");
 
             AccessibilityNodeInfo root = context.getRootInActiveWindow();
 
             if(root != null) {
                 List<AccessibilityNodeInfo> list = root.findAccessibilityNodeInfosByText("通讯录");
                 if(list.size() > 0 && list.get(0).getParent() != null && list.get(0).getParent().isClickable()) {
-                    System.out.println("通讯录?"+list.get(0).getClassName().toString());
                     list.get(0).getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
                     if(context.getChatTarget().equals("录制1"))
                         context.setCurState(new recordListView());

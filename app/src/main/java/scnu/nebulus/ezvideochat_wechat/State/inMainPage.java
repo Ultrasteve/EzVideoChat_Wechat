@@ -22,15 +22,13 @@ public class inMainPage implements State {
     @Override
     public void doAction(WechatAutoService context, AccessibilityEvent event) {
         Log.e("myservice", this.getClass().getName());
-        if(context.getServiceInfo().packageNames != null)
-            Log.e("myservice", context.getServiceInfo().packageNames[0]);
-        else
-            Log.e("myservice", "null");
+
 
         AccessibilityNodeInfo node = context.getRootInActiveWindow();
         System.out.println("NODE:"+node);
         if(node != null){
             List<AccessibilityNodeInfo> list = node.findAccessibilityNodeInfosByText("微信");
+            System.out.println("微信有咩有："+list.size());
             if(list.size() > 0 ) {
                 if(!context.getChatTarget().equals("录制2"))
                     context.setCurState(new initWechat());

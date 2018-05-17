@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">EzVideoChat_Wechat</string>
+    <string name="app_name">视频通话</string>
     <string name="accessibility_service_description">我的service</string>
+    <string name="record">录制</string>
+    <string name="add">添加</string>
+    <string name="recordPage">录制微信id</string>
+    <string name="contactPage">联系人</string>
 </resources>

@@ -22,7 +22,7 @@ public class inChattingPage implements State {
     public void doAction(WechatAutoService context, AccessibilityEvent event) {
         if(event.getPackageName().toString().equals("com.tencent.mm")) {
             AccessibilityNodeInfo root = context.getRootInActiveWindow();
-            List<AccessibilityNodeInfo> list = root.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/aaf");
+            List<AccessibilityNodeInfo> list = root.findAccessibilityNodeInfosByViewId(context.getPlusbuttonID());
             if(list.size() > 0) {
                 list.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
 

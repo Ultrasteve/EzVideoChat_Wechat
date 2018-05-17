@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
@@ -23,35 +24,39 @@ public class recordListView implements State {
     * */
     @Override
     public void doAction(WechatAutoService context, AccessibilityEvent event) {
-        if(event.getSource().getPackageName().equals("com.tencent.mm")) {
+        if(event.getSource() != null && event.getSource().getPackageName().equals("com.tencent.mm")) {
             final Context innerContext = context;
             String fileName = null;
             Handler handler;
 
-            if(event.getSource().getClassName().equals("android.widget.ListView")){
+            if(event.getEventType() == AccessibilityEvent.TYPE_VIEW_SCROLLED && event.getSource().getClassName().equals("android.widget.ListView")){
                 AccessibilityNodeInfo ani = event.getSource();
                 ani.refresh();
-                SharedPreferences.Editor editor = context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit();
-                editor.putString("listview", ani.getViewIdResourceName());
+                SharedPreferences.Editor editor = context.getMsp().edit();
+                editor.putString("listviewid", ani.getViewIdResourceName());
+                final String s = ani.getViewIdResourceName();
                 if(editor.commit()) {
                     handler=new Handler(Looper.getMainLooper());
                     handler.post(new Runnable(){
                         public void run(){
-                            Toast.makeText(innerContext, "录制成功", Toast.LENGTH_LONG).show();
+                            Toast.makeText(innerContext, "录制成功"+s, Toast.LENGTH_LONG).show();
                         }
                     });
-
+                    context.loadID();
                     context.setCurState(new missionComplete());
                 }
 
             }
             else {
-                handler=new Handler(Looper.getMainLooper());
-                handler.post(new Runnable(){
-                    public void run(){
-                        Toast.makeText(innerContext, "请滚动联系人栏", Toast.LENGTH_LONG).show();
-                    }
-                });
+
+                if(event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED) {
+                    handler=new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable(){
+                        public void run(){
+                            Toast.makeText(innerContext, "请滚动联系人栏", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
 
         }

@@ -1,5 +1,6 @@
 package scnu.nebulus.ezvideochat_wechat.State;
 
+import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
 import scnu.nebulus.ezvideochat_wechat.ServiceInfoBundle;
@@ -12,6 +13,7 @@ public class missionComplete implements State {
     @Override
     public void doAction(WechatAutoService context, AccessibilityEvent event) {
         if(event.getPackageName().toString().equals("com.tencent.mm")) {
+            Log.e("myservice", this.getClass().getName());
             context.setCurState(new insideMyApp());
             context.setServiceInfo(new ServiceInfoBundle().setPackage(null));
             context.setChatTarget(null);
